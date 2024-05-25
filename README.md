@@ -1,0 +1,5 @@
+DISPLAY: 640px * 480px 60Hz
+
+LEVEL: 10 * 10 ASCII
+
+BLOCK: 48px * 48px

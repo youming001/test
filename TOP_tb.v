@@ -15,6 +15,8 @@ module top_tb;
     integer i, j;
     initial begin
         clk = 0;
+        forever #1 clk = ~clk;
+        
         rstn = 0; #10; rstn = 1;
         for (i = 0; i < 480; i = i + 1) begin
             for (j = 0; j < 640; j = j + 1) begin
@@ -24,6 +26,4 @@ module top_tb;
             end
         end
     end
-
-    always #1 clk = ~clk;
 endmodule

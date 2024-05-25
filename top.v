@@ -29,13 +29,22 @@ module TOP (
         .hs(hs), .vs(vs), .rdn()
     );
 
+    localparam CX = 480 / 2;
+    localparam CY = 640 / 2;
+    localparam R = 100;
     integer i, j;
     initial begin
         for (i = 0; i < 480; i = i + 1) begin
             for (j = 0; j < 640; j = j + 1) begin
-                vram.r[i][j] = 3'b000;
-                vram.g[i][j] = 3'b000;
-                vram.b[i][j] = 2'b11;
+                if ((i - CX) * (i - CX) + (j - CY) * (j - CY) < R * R) begin
+                    vram.r[i][j] = 3'b111;
+                    vram.g[i][j] = 3'b111;
+                    vram.b[i][j] = 2'b11;
+                end else begin
+                    vram.r[i][j] = 3'b000;
+                    vram.g[i][j] = 3'b000;
+                    vram.b[i][j] = 2'b11;
+                end
             end
         end
     end

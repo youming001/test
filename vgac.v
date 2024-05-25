@@ -1,10 +1,10 @@
-module vgac (
+module VGAC (
     input wire vga_clk,         // 25MHz
     input wire clrn,            // clrn, active low
     input wire [11:0] d_in,     // bbbb_gggg_rrrr, pixel
 
     output reg [8:0] row_addr, // pixel ram row address, 480 (512) lines
-    output reg [8:0] col_addr, // pixel ram col address, 640 (1024) pixels
+    output reg [9:0] col_addr, // pixel ram col address, 640 (1024) pixels
     output reg [3:0] r, g, b,  // red, green, blue colors
     output reg rdn,            // read pixel RAM (active low)
     output reg hs,             // horizontal synchronization

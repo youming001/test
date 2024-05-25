@@ -4,16 +4,12 @@ set_property IOSTANDARD LVCMOS18 [get_ports clk]
 
 set_property PACKAGE_PIN W14 [get_ports BTN[0]]
 set_property IOSTANDARD LVCMOS18 [get_ports BTN[0]]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets BTN_IBUF[0]]
 set_property PACKAGE_PIN V14 [get_ports BTN[1]]
 set_property IOSTANDARD LVCMOS18 [get_ports BTN[1]]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets BTN_IBUF[1]]
 set_property PACKAGE_PIN V19 [get_ports BTN[2]]
 set_property IOSTANDARD LVCMOS18 [get_ports BTN[2]]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets BTN_IBUF[2]]
 set_property PACKAGE_PIN V18 [get_ports BTN[3]]
 set_property IOSTANDARD LVCMOS18 [get_ports BTN[3]]
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets BTN_IBUF[3]]
 set_property PACKAGE_PIN W16 [get_ports BTNX4]
 set_property IOSTANDARD LVCMOS18 [get_ports BTNX4]
 
@@ -105,9 +101,9 @@ set_property IOSTANDARD LVCMOS33 [get_ports {AN[3]}]
 # NET "r[1]"                                 LOC = N22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
 # NET "r[2]"                                 LOC = R21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
 # NET "r[3]"                                 LOC = P21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "hs"                                       LOC = M22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "vs"                                       LOC = M21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "rstn"                                     LOC = W13       | IOSTANDARD = LVCMOS18 ;
+# NET "hs"                                   LOC = M22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
+# NET "vs"                                   LOC = M21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
+# NET "rstn"                                 LOC = W13       | IOSTANDARD = LVCMOS18 ;
 
 set_property PACKAGE_PIN T20 [get_ports {b[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {b[0]}]

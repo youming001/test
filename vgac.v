@@ -7,8 +7,8 @@ module VGAC (
     output reg [9:0] col_addr, // pixel ram col address, 640 (1024) pixels
     output reg [3:0] r, g, b,  // red, green, blue colors
     output reg rdn,            // read pixel RAM (active low)
-    output reg hs,             // horizontal synchronization
-    output reg vs              // vertical synchronization
+    output reg hs,             // horizontal sync
+    output reg vs              // vertical sync
 );
     // h_count: VGA horizontal counter (0-799)
     reg [9:0] h_count;

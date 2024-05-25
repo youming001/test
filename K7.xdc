@@ -89,22 +89,6 @@ set_property IOSTANDARD LVCMOS33 [get_ports {AN[2]}]
 set_property PACKAGE_PIN AC22 [get_ports {AN[3]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {AN[3]}]
 
-# NET "b[0]"                                 LOC = T20       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "b[1]"                                 LOC = R20       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "b[2]"                                 LOC = T22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "b[3]"                                 LOC = T23       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "g[0]"                                 LOC = R22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "g[1]"                                 LOC = R23       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "g[2]"                                 LOC = T24       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "g[3]"                                 LOC = T25       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "r[0]"                                 LOC = N21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "r[1]"                                 LOC = N22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "r[2]"                                 LOC = R21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "r[3]"                                 LOC = P21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "hs"                                   LOC = M22       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "vs"                                   LOC = M21       | IOSTANDARD = LVCMOS33 | SLEW = FAST ;
-# NET "rstn"                                 LOC = W13       | IOSTANDARD = LVCMOS18 ;
-
 set_property PACKAGE_PIN T20 [get_ports {b[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports {b[0]}]
 set_property SLEW FAST [get_ports {b[0]}]

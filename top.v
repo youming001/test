@@ -1,13 +1,15 @@
 module TOP (
-    input wire clk,             // 100MHz clock
-    input wire rstn,            // vga reset
-    output wire [3:0] r, g, b,  // vga rgb output
-    output wire hs,             // horizontal sync
-    output wire vs              // vertical sync
+    input wire clk,             // 100MHz 板载时钟
+    input wire rstn,            // 重置信号（低有效）
+    output wire [3:0] r, g, b,  // VGA RGB 输出
+    output wire hs,             // VGA 水平同步
+    output wire vs              // VGA 垂直同步
 );
+    // 时钟分频
     wire [31:0] clk_div;
     CLKDIV clkdiv (.clk(clk), .rst(1'b0), .clk_div(clk_div));
 
+    // VGA 控制
     wire [8:0] row_addr;
     wire [9:0] col_addr;
     wire [11:0] d_in;

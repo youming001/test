@@ -1,9 +1,10 @@
 module VRAM (
-    input wire vga_clk,     // 25MHz
+    input wire vga_clk,
     input wire [8:0] row_addr,
     input wire [9:0] col_addr,
     output reg [11:0] d_out
 );
+    // 采用 RGB332 格式
     reg [2:0] r [0:479][0:639];
     reg [2:0] g [0:479][0:639];
     reg [1:0] b [0:479][0:639];

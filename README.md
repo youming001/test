@@ -4,6 +4,12 @@ LEVEL: 10 * 10 ASCII
 
 BLOCK: 48px * 48px
 
+P3 640 480 16
+
+ffmpeg -i img.png -vf scale=640:480 outp.png
+
+$readmemh
+
 ```c
 const MAP levels[]
 

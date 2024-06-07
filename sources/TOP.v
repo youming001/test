@@ -28,29 +28,27 @@ module TOP (
     );
 
     // VROM
-    wire [18:0] vrom_addr_r = row_addr * WIDTH + col_addr;
-    reg [18:0] vrom_addr_w = 19'b0;
+    wire [18:0] vrom_addr_r = col_addr + row_addr * WIDTH;
+    wire [18:0] vrom_addr_w;
     wire [11:0] vrom_out;
-    wire [11:0] vrom_in = 12'b0000_1111_1111;
-    wire vrom_we = 1'b1;
+    wire [11:0] vrom_in;
+    wire vrom_we;
     assign vgac_in = vrom_out;
     VROM vrom (
-        .clka(clk_div[1]),         // Write
+        .clka(clk),                 // Write
         .addra(vrom_addr_w),
         .dina(vrom_in),
         .wea(vrom_we),
-        .clkb(clk),                // Read
+        .clkb(clk_div[1]),          // Read
         .addrb(vrom_addr_r),
         .doutb(vrom_out)
     );
 
-    always @ (posedge clk) vrom_addr_w <= vrom_addr_w + 1;
-
     // IMAGE
-    // IMAGE image (
-    //     .clk(clk),
-    //     .we(vrom_we),
-    //     .addr(vrom_addr_w),
-    //     .dout(vrom_in)
-    // );
+    IMAGE image (
+        .clk(clk),
+        .we(vrom_we),
+        .addr(vrom_addr_w),
+        .dout(vrom_in)
+    );
 endmodule

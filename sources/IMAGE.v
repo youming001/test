@@ -2,7 +2,7 @@ module IMAGE (
     input clk,
     output we,
     output reg [18:0] addr,
-    output [7:0] dout
+    output [11:0] dout
 );
     localparam WIDTH = 640;
     localparam HEIGHT = 480;
@@ -14,7 +14,7 @@ module IMAGE (
     localparam Y_OFFSET = HEIGHT / 2;
 
     reg [11:0] s_addr = 11'b0;
-    wire [7:0] s_dout;
+    wire [11:0] s_dout;
 
     SPRITE_ROM sprite (
         .clk(clk),
@@ -23,23 +23,24 @@ module IMAGE (
     );
 
     reg [6:0] i = 6'b0, j = 6'b0;
+    reg [6:0] tmp_1_i, tmp_1_j;
+    reg [6:0] tmp_2_i, tmp_2_j;
 
     assign we = 1'b1;
     assign dout = s_dout;
+    
+    always @ (posedge clk) begin
+        if (i == S_WIDTH - 1) begin
+            i <= 6'b0;
+            if (j == S_HEIGHT - 1) j <= 6'b0;
+            else j <= j + 1;
+        end else i <= i + 1;
+        s_addr <= i + j * S_WIDTH;
+    end
 
     always @ (posedge clk) begin
-        i = i + 1;
-
-        if (i == S_WIDTH) begin
-            i = 6'b0;
-            j = j + 1;
-        end
-
-        if (j == S_HEIGHT) begin
-            j = 6'b0;
-        end
-
-        s_addr = i + j * S_WIDTH;
-        addr = (i + X_OFFSET) + (j + Y_OFFSET) * WIDTH;
+        addr <= (tmp_2_i + X_OFFSET) + (tmp_2_j + Y_OFFSET) * WIDTH;
+        tmp_1_i <= i; tmp_2_i <= tmp_1_i;
+        tmp_1_j <= j; tmp_2_j <= tmp_1_j;
     end
 endmodule

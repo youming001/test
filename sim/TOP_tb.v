@@ -21,14 +21,18 @@ module TOP_tb;
     wire [11:0] vrom_out = UUT.vrom_out;
     wire [11:0] vgac_in = UUT.vgac_in;
 
-    integer fd;
-    initial begin
-        fd = $fopen("./output.ppm", "w");
-        clk = 0; rstn = 0; #10; rstn = 1;
+    integer fd, frame_idx = 0;
+    reg [8*20:1] filename;
+    initial begin clk = 0; rstn = 0; #10; rstn = 1; end
+
+    always @ (posedge vs) begin
+        if (fd) $fclose(fd);
+        $sformat(filename, "./frame_%0d.ppm", frame_idx);
+        fd = $fopen(filename, "w");
+        $fwrite(fd, "P3 640 480 16\n");
+        frame_idx = frame_idx + 1;
     end
-    
     always @ (posedge UUT.clk_div[1]) if (~rdn) $fwrite(fd, "%d %d %d ", r, g, b);
-    always @ (posedge vs) $fwrite(fd, "\n\nP3 640 480 16\n");
-    always @ (posedge hs) $fwrite(fd, "\n");
+    always @ (posedge rdn) if (fd) $fwrite(fd, "\n");
     always #1 clk = ~clk;
 endmodule

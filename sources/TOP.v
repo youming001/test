@@ -1,3 +1,5 @@
+`include "PARAMS.v"
+
 module TOP (
     input clk,             // 100MHz clock
     input rstn,            // Reset signal (low active)
@@ -5,9 +7,6 @@ module TOP (
     output hs,             // VGA Horizontal Sync
     output vs              // VGA Vertical Sync
 );
-    localparam WIDTH = 640;
-    localparam HEIGHT = 480;
-
     // Clock Division
     wire [31:0] clk_div;
     CLKDIV clkdiv (.clk(clk), .rst(1'b0), .clk_div(clk_div));
@@ -28,7 +27,7 @@ module TOP (
     );
 
     // VROM
-    wire [18:0] vrom_addr_r = col_addr + row_addr * WIDTH;
+    wire [18:0] vrom_addr_r = col_addr + row_addr * `WIDTH;
     wire [18:0] vrom_addr_w;
     wire [11:0] vrom_out;
     wire [11:0] vrom_in;

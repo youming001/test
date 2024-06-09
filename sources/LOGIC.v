@@ -13,6 +13,7 @@ function [2:0] dx (
 endfunction
 
 
+
 // Convert move to its y-offset
 function [2:0] dy (
     input [2:0] move
@@ -23,6 +24,7 @@ function [2:0] dy (
         default: dy = 0;
     endcase end
 endfunction
+
 
 
 // Game logic module
@@ -77,7 +79,7 @@ module LOGIC (
     always @ (posedge clk) begin
         if (state == `OPERATE) begin
             if (move == `RESET)                     // Reset the game
-                state <= `INIT;
+                state <= `INIT; // TODO: NONE
             else case (cur_map[dest_x][dest_y])     // Player & box move
                 `GROUND, `TARGET: begin
                     cur_map[dest_x][dest_y] <= facing;

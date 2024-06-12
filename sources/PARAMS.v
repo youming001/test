@@ -13,14 +13,15 @@
 `define SPRITE_HEIGHT 48
 
 // SPRITE ENUM
-`define PLAYER_UP     3'b000
-`define PLAYER_DOWN   3'b001
-`define PLAYER_LEFT   3'b010
-`define PLAYER_RIGHT  3'b011
-`define BOX           3'b100
-`define TARGET        3'b101
-`define WALL          3'b110
-`define GROUND        3'b111
+`define PLAYER_UP     4'b0000
+`define PLAYER_DOWN   4'b0001
+`define PLAYER_LEFT   4'b0010
+`define PLAYER_RIGHT  4'b0011
+`define BOX           4'b0100
+`define TARGET        4'b0101
+`define WALL          4'b0110
+`define GROUND        4'b0111
+`define SIDE          4'b1000
 
 // OPERATION ENUM
 `define NONE  3'b000

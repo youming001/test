@@ -32,6 +32,5 @@
 `define RESET 3'b101
 
 // GAME CONSTANTS
-`define MAX_LEVEL 4
+`define MAX_LEVEL 5
 `define BOX_NUM   4
-`define MAP_SIZE  10

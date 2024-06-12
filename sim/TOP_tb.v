@@ -20,8 +20,6 @@ module TOP_tb;
     wire [11:0] vgac_in = UUT.vgac_in;
     wire [2:0] move = UUT.move;
     wire [1:0] state = UUT.logic.state;
-    wire ready = UUT.logic.ready;
-    wire move_logic = UUT.logic.move;
     wire [2:0] p_x = UUT.logic.p_x;
     wire [2:0] p_y = UUT.logic.p_y;
     wire [3:0] current_map_x_y = UUT.logic.cur_map[p_x][p_y];

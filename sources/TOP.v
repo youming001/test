@@ -12,6 +12,7 @@ module TOP (
     wire [31:0] clk_div;
     CLKDIV clkdiv (.clk(clk), .rst(1'b0), .clk_div(clk_div));
 
+
     // VGA Control
     wire [8:0] row_addr; // Y
     wire [9:0] col_addr; // X
@@ -27,30 +28,6 @@ module TOP (
         .hs(hs), .vs(vs), .rdn(rdn)
     );
 
-    // VROM
-    // wire [18:0] vrom_addr_r = col_addr + row_addr * `WIDTH;
-    // wire [18:0] vrom_addr_w;
-    // wire [11:0] vrom_out;
-    // wire [11:0] vrom_in;
-    // wire vrom_we;
-    // assign vgac_in = vrom_out;
-    // VROM vrom (
-    //     .clka(clk),                 // Write
-    //     .addra(vrom_addr_w),
-    //     .dina(vrom_in),
-    //     .wea(vrom_we),
-    //     .clkb(clk_div[1]),          // Read
-    //     .addrb(vrom_addr_r),
-    //     .doutb(vrom_out)
-    // );
-
-    // IMAGE
-    // IMAGE image (
-    //     .clk(clk),
-    //     .we(vrom_we),
-    //     .addr(vrom_addr_w),
-    //     .dout(vrom_in)
-    // );
 
     // LOGIC
     reg [2:0] move;
@@ -66,12 +43,18 @@ module TOP (
         .chunk_type(chunk_type)
     );
 
+
     // RENDER
+    wire [5:0] sp_x = (col_addr - 80 + 48 * 2) % 48; // 48 * 2 is to avoid negative value
+    wire [5:0] sp_y = row_addr % 48;
     RENDER render (
         .clk(clk),
+        .sp_x(sp_x),
+        .sp_y(sp_y),
         .chunk_type(chunk_type),
         .dout(vgac_in)
     );
+
 
     // SWITCH
     reg [15:0] old_SW = 16'b0;

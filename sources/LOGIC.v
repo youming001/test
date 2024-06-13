@@ -46,11 +46,11 @@ module LOGIC (
     reg [3:0] p_x, p_y;                    // Player position
     reg [2:0] score = 3'd0;                // The number of boxes on targets
     reg [2:0] level = 3'd1;                // Current level
-    reg [1:0] state = `INIT;               // Current state
+    reg [1:0] state = `START;              // Current state
 
 
 
-    // Retrieve the chunk type of (req_x, req_y) and return
+    // Retrieve requested data and return
     assign chunk_type = is_center ? cur_map[req_x][req_y] : `SIDE;
 
 
@@ -68,10 +68,19 @@ module LOGIC (
     wire [3:0] far_y = p_y + 2 * dy(move); // Far y
 
     always @ (posedge clk) begin
+        // State machine: START
+        // Start screen, wait for [space] key
+        if (state == `START) begin
+            if (move == `PLAY) begin
+                state <= `INIT;
+            end
+        end
+
+
         // State machine: INIT
         // Initialize the game, wait for IP core
         if (state == `INIT) begin
-            score <= 2'd0;
+            score <= 3'd0;
             state <= `OPERATE;
 
             for (i = 0; i < 10; i = i + 1) begin
@@ -83,10 +92,10 @@ module LOGIC (
                             p_x <= i;
                             p_y <= j;
                         end
-                        3'd2:    begin cur_map[i][j] <= `BOX;       env_map[i][j] <= `GROUND; end
-                        3'd3:    begin cur_map[i][j] <= `TARGET;    env_map[i][j] <= `TARGET; end
-                        3'd4:    begin cur_map[i][j] <= `WALL;      env_map[i][j] <= `WALL;   end
-                        default: begin cur_map[i][j] <= `GROUND;    env_map[i][j] <= `GROUND; end
+                        3'd2:    begin cur_map[i][j] <= `BOX;    env_map[i][j] <= `GROUND; end
+                        3'd3:    begin cur_map[i][j] <= `TARGET; env_map[i][j] <= `TARGET; end
+                        3'd4:    begin cur_map[i][j] <= `WALL;   env_map[i][j] <= `WALL;   end
+                        default: begin cur_map[i][j] <= `GROUND; env_map[i][j] <= `GROUND; end
                     endcase
                 end
             end
@@ -116,9 +125,10 @@ module LOGIC (
                         p_y <= dest_y;
                     end
 
-                    if (env_map[far_x][far_y] == `TARGET)   score <= score + 1;
-                    if (env_map[dest_x][dest_y] == `TARGET) score <= score - 1;
+                    if (env_map[dest_x][dest_y] == `TARGET && env_map[far_x][far_y] != `TARGET) score <= score - 1;
+                    if (env_map[dest_x][dest_y] != `TARGET && env_map[far_x][far_y] == `TARGET) score <= score + 1;
                 end
+                `WALL: cur_map[p_x][p_y] <= facing(move);
             endcase
 
             if (score == `BOX_NUM)                  // Level up
@@ -132,20 +142,9 @@ module LOGIC (
         if (state == `LEVELUP) begin
             if (level == `MAX_LEVEL) begin
                 level <= 3'd1;
-                state <= `GAMEOVER;
+                state <= `START;
             end else begin
                 level <= level + 1;
-                state <= `INIT;
-            end
-        end
-
-
-
-        // State machine: GAMEOVER
-        // Game over, wait for reset
-        if (state == `GAMEOVER) begin
-            if (move == `RESET) begin
-                level <= 3'd1;
                 state <= `INIT;
             end
         end

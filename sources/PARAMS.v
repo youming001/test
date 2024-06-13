@@ -3,14 +3,13 @@
 `define HEIGHT 480
 
 // STATE ENUM
-`define INIT     2'b00
-`define OPERATE  2'b01
-`define LEVELUP  2'b10
-`define GAMEOVER 2'b11
+`define INIT    2'b00
+`define OPERATE 2'b01
+`define LEVELUP 2'b10
+`define START   2'b11
 
 // SPRITE
-`define SPRITE_WIDTH  48
-`define SPRITE_HEIGHT 48
+`define SPRITE_SIZE   48
 
 // SPRITE ENUM
 `define PLAYER_UP     4'b0000
@@ -30,6 +29,7 @@
 `define LEFT  3'b011
 `define RIGHT 3'b100
 `define RESET 3'b101
+`define PLAY  3'b110
 
 // GAME CONSTANTS
 `define MAX_LEVEL 5

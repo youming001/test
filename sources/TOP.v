@@ -3,7 +3,10 @@
 module TOP (
     input clk,             // 100MHz clock
     input rstn,            // Reset signal (low active)
-    input [15:0] SW,       // Switch 
+    input ps2_clk,         // PS2 Clock
+    input ps2_data,        // PS2 Data
+    output [3:0] AN,       // 7-segment Anode
+    output [7:0] SEGMENT,  // 7-segment Segment
     output [3:0] r, g, b,  // VGA RGB Output
     output hs,             // VGA Horizontal Sync
     output vs              // VGA Vertical Sync
@@ -14,23 +17,23 @@ module TOP (
 
 
     // VGA Control
-    wire [8:0] row_addr; // Y
     wire [9:0] col_addr; // X
+    wire [8:0] row_addr; // Y
     wire [11:0] vgac_in;
     wire rdn;
     VGAC vgac (
         .clk(clk_div[1]),
         .clrn(rstn),
         .din(vgac_in),
-        .row_addr(row_addr),
         .col_addr(col_addr),
+        .row_addr(row_addr),
         .r(r), .g(g), .b(b),
         .hs(hs), .vs(vs), .rdn(rdn)
     );
 
 
     // LOGIC
-    reg [2:0] move;
+    wire [2:0] move;
     wire [3:0] chunk_type;
     wire [3:0] req_x = (col_addr - 80) / 48;
     wire [3:0] req_y = row_addr / 48;
@@ -44,28 +47,46 @@ module TOP (
     );
 
 
-    // RENDER
-    wire [5:0] sp_x = (col_addr - 80 + 48 * 2) % 48; // 48 * 2 is to avoid negative value
-    wire [5:0] sp_y = row_addr % 48;
-    RENDER render (
-        .clk(clk),
-        .sp_x(sp_x),
-        .sp_y(sp_y),
-        .chunk_type(chunk_type),
-        .dout(vgac_in)
+    // STATIC - Static images, e.g. START, GAMEOVER
+    wire [11:0] static_out;
+    STATIC static (
+        .clk(clk_div[1]),
+        .v_X(col_addr),
+        .v_Y(row_addr),
+        .dout(static_out)
     );
 
 
-    // SWITCH
-    reg [15:0] old_SW = 16'b0;
-    always @ (posedge clk) begin
-        if ((|SW) && ~(|old_SW)) begin
-            if (SW[0]) move <= `RIGHT;
-            else if (SW[1]) move <= `LEFT;
-            else if (SW[2]) move <= `DOWN;
-            else if (SW[3]) move <= `UP;
-            else if (SW[15]) move <= `RESET;
-        end else move <= `NONE;
-        old_SW <= SW;
-    end
+    // RENDER
+    wire [5:0] sp_x = (col_addr - 80 + 48 * 2) % 48; // 48 * 2 is to avoid negative value
+    wire [5:0] sp_y = row_addr % 48;
+    wire [11:0] render_out;
+    RENDER render (
+        .clk(clk_div[1]),
+        .sp_x(sp_x),
+        .sp_y(sp_y),
+        .chunk_type(chunk_type),
+        .dout(render_out)
+    );
+    assign vgac_in = logic.state == `START ? static_out : render_out;
+
+
+    // NUMBER
+    NUMBER number (
+        .scan(clk_div[18:17]),
+        .HEXS({1'b0, logic.score, 4'b0, 4'b0, 1'b0, logic.level}),
+        .LES(4'b0),
+        .point(4'b0),
+        .AN(AN),
+        .SEGMENT(SEGMENT)
+    );
+
+
+    // CONTROL
+    KEYBOARD keyboard (
+        .clk(clk),
+        .ps2_clk(ps2_clk),
+        .ps2_data(ps2_data),
+        .move(move)
+    );
 endmodule

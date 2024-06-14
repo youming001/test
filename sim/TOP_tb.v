@@ -24,10 +24,7 @@ module TOP_tb;
     wire [2:0] dest_x = UUT.logic.dest_x;
     wire [2:0] dest_y = UUT.logic.dest_y;
 
-    initial begin
-        clk = 0; SW = 16'b0; #10;
-        rstn = 0; #10; rstn = 1;
-    end
+    initial begin clk = 0; rstn = 0; #10; rstn = 1; end
 
     integer fd, frame_idx = 0;
     reg [8*20:1] filename;

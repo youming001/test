@@ -116,17 +116,16 @@ module LOGIC (
                     p_y <= dest_y;
                 end
                 `BOX: begin
-                    if (cur_map[far_x][far_y] == `GROUND
-                        || cur_map[far_x][far_y] == `TARGET) begin
+                    if (cur_map[far_x][far_y] == `GROUND || cur_map[far_x][far_y] == `TARGET) begin
                         cur_map[far_x][far_y] <= `BOX;
                         cur_map[dest_x][dest_y] <= facing(move);
                         cur_map[p_x][p_y] <= env_map[p_x][p_y];
                         p_x <= dest_x;
                         p_y <= dest_y;
-                    end
 
-                    if (env_map[dest_x][dest_y] == `TARGET && env_map[far_x][far_y] != `TARGET) score <= score - 1;
-                    if (env_map[dest_x][dest_y] != `TARGET && env_map[far_x][far_y] == `TARGET) score <= score + 1;
+                        if (env_map[dest_x][dest_y] == `TARGET && env_map[far_x][far_y] != `TARGET) score <= score - 1;
+                        if (env_map[dest_x][dest_y] != `TARGET && env_map[far_x][far_y] == `TARGET) score <= score + 1;
+                    end
                 end
                 `WALL: cur_map[p_x][p_y] <= facing(move);
             endcase

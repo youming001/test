@@ -143,3 +143,23 @@ set_property PACKAGE_PIN N18 [get_ports ps2_clk]
 set_property PACKAGE_PIN M19 [get_ports ps2_data]
 set_property IOSTANDARD LVCMOS33 [get_ports ps2_clk]
 set_property IOSTANDARD LVCMOS33 [get_ports ps2_data]
+
+# LED Serial
+set_property PACKAGE_PIN N26 [get_ports LED_CLK]
+set_property PACKAGE_PIN N24 [get_ports LED_CLR]
+set_property PACKAGE_PIN M26 [get_ports LED_DT]
+set_property PACKAGE_PIN P18 [get_ports LED_EN]
+set_property IOSTANDARD LVCMOS33 [get_ports LED_CLK]
+set_property IOSTANDARD LVCMOS33 [get_ports LED_CLR]
+set_property IOSTANDARD LVCMOS33 [get_ports LED_DT]
+set_property IOSTANDARD LVCMOS33 [get_ports LED_EN]
+
+# 7-Segment Serial
+set_property PACKAGE_PIN M24 [get_ports SEG_CLK]
+set_property PACKAGE_PIN M20 [get_ports SEG_CLR]
+set_property PACKAGE_PIN L24 [get_ports SEG_DT]
+set_property PACKAGE_PIN R18 [get_ports SEG_EN]
+set_property IOSTANDARD LVCMOS33 [get_ports SEG_CLK]
+set_property IOSTANDARD LVCMOS33 [get_ports SEG_CLR]
+set_property IOSTANDARD LVCMOS33 [get_ports SEG_DT]
+set_property IOSTANDARD LVCMOS33 [get_ports SEG_EN]

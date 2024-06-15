@@ -7,9 +7,18 @@ module TOP (
     input ps2_data,        // PS2 Data
     output [3:0] AN,       // 7-segment Anode
     output [7:0] SEGMENT,  // 7-segment Segment
+    output [7:0] LED,      // LED
     output [3:0] r, g, b,  // VGA RGB Output
     output hs,             // VGA Horizontal Sync
-    output vs              // VGA Vertical Sync
+    output vs,             // VGA Vertical Sync
+    output SEG_CLK,        // 7-segment Clock
+    output SEG_CLR,        // 7-segment Clear
+    output SEG_DT,         // 7-segment Data
+    output SEG_EN,         // 7-segment Enable
+    output LED_CLK,        // LED Clock
+    output LED_CLR,        // LED Clear
+    output LED_DT,         // LED Data
+    output LED_EN          // LED Enable
 );
     // Clock Division
     wire [31:0] clk_div;
@@ -71,14 +80,34 @@ module TOP (
     assign vgac_in = logic.state == `START ? static_out : render_out;
 
 
-    // NUMBER
-    NUMBER number (
+    // Level Display
+    LVDISP lvdisp (
         .scan(clk_div[18:17]),
-        .HEXS({1'b0, logic.score, 4'b0, 4'b0, 1'b0, logic.level}),
-        .LES(4'b0),
-        .point(4'b0),
-        .AN(AN),
-        .SEGMENT(SEGMENT)
+        .din({1'b0, logic.level}),
+        .SEGMENT(SEGMENT),
+        .AN(AN)
+    );
+
+
+    // Score Display
+    SCDISP scdisp (
+        .clk(clk),
+        .din({1'b0, logic.score}),
+        .SEG_CLK(SEG_CLK),
+        .SEG_CLR(SEG_CLR),
+        .SEG_DT(SEG_DT),
+        .SEG_EN(SEG_EN)
+    );
+
+
+    // LED Display
+    LEDDISP leddisp (
+        .clk(clk),
+        .LED(LED),
+        .LED_CLK(LED_CLK),
+        .LED_DT(LED_DT),
+        .LED_EN(LED_EN),
+        .LED_CLR(LED_CLR)
     );
 
 

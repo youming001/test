@@ -71,6 +71,7 @@ module LOGIC (
         // State machine: START
         // Start screen, wait for [space] key
         if (state == `START) begin
+            score <= 3'b0;
             if (move == `PLAY) begin
                 state <= `INIT;
             end
@@ -125,7 +126,7 @@ module LOGIC (
 
                         if (env_map[dest_x][dest_y] == `TARGET && env_map[far_x][far_y] != `TARGET) score <= score - 1;
                         if (env_map[dest_x][dest_y] != `TARGET && env_map[far_x][far_y] == `TARGET) score <= score + 1;
-                    end
+                    end else cur_map[p_x][p_y] <= facing(move);
                 end
                 `WALL: cur_map[p_x][p_y] <= facing(move);
             endcase
